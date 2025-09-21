@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthLens - AI-Powered Misinformation Detection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="animated-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">TruthLens</h1>
+                <p class="hero-subtitle">AI-Powered Misinformation Detection</p>
+                <p class="hero-description">
+                    Instantly verify claims and detect misinformation with advanced AI technology. 
+                    Get reliable fact-checking results in seconds.
+                </p>
+                <button class="cta-button" onclick="scrollToSection('checker')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="21 21l-4.35-4.35"/>
+                    </svg>
+                    Start Fact-Checking
+                </button>
+                <p class="hero-footer">AI-powered fact-checking technology</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Claim Checker Section -->
+    <section id="checker" class="checker-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Verify Any Claim</h2>
+                <p>Analyze text claims or website content using our AI-powered fact-checking system</p>
+            </div>
+
+            <div class="checker-card">
+                <div class="tabs">
+                    <div class="tab-list">
+                        <button class="tab-button active" data-tab="text">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                            Text Claim
+                        </button>
+                        <button class="tab-button" data-tab="url">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                            Website URL
+                        </button>
+                    </div>
+
+                    <div class="tab-content active" data-content="text">
+                        <label for="claim-input">Enter claim to verify</label>
+                        <textarea 
+                            id="claim-input" 
+                            placeholder="Enter the claim you want to verify... (e.g., 'The Earth is flat' or 'Coffee helps prevent diabetes')"
+                        ></textarea>
+                    </div>
+
+                    <div class="tab-content" data-content="url">
+                        <label for="url-input">Enter website URL to verify</label>
+                        <input 
+                            id="url-input" 
+                            type="url" 
+                            placeholder="https://example.com/article-to-verify"
+                        >
+                        <p class="input-help">We'll analyze the content and claims made on this webpage</p>
+                    </div>
+
+                    <button class="verify-button" id="verify-btn" onclick="handleSubmit()">
+                        <span class="button-text">Check Claim</span>
+                        <div class="loading-spinner hidden">
+                            <svg class="spin" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="32" stroke-dashoffset="32">
+                                    <animate attributeName="stroke-dasharray" dur="2s" values="0 32;16 16;0 32;0 32" repeatCount="indefinite"/>
+                                    <animate attributeName="stroke-dashoffset" dur="2s" values="0;-16;-32;-32" repeatCount="indefinite"/>
+                                </circle>
+                            </svg>
+                            <span>Analyzing...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="results-section hidden">
+                <div class="results-card">
+                    <div class="results-header">
+                        <div class="verdict-badge">
+                            <svg class="verdict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                            <span class="verdict-text">Likely True</span>
+                        </div>
+                        <div class="confidence-score">
+                            <p>Confidence Score</p>
+                            <div class="score">85%</div>
+                        </div>
+                    </div>
+
+                    <div class="results-content">
+                        <div class="left-column">
+                            <div class="evidence-section">
+                                <h3>Evidence & Sources</h3>
+                                <div id="evidence-list"></div>
+                            </div>
+                        </div>
+                        <div class="right-column">
+                            <div class="education-tip">
+                                <h3>💡 Education Tip</h3>
+                                <p id="tip-content"></p>
+                            </div>
+                            <div class="transparency-section">
+                                <h3>Transparency & Signals</h3>
+                                <pre id="signals-pre" class="signals-pre">No signals yet.</pre>
+                            </div>
+                            <div class="debug-controls" style="margin-top: 1rem;">
+                                <button id="raw-json-btn" class="verify-button" style="padding:0.6rem 1rem; font-size:0.9rem;">View Raw JSON</button>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>How TruthLens Works</h2>
+                <p>Our AI-powered system analyzes claims through multiple verification layers</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3>Input Analysis</h3>
+                    <p>Submit any claim or website URL for comprehensive fact-checking analysis.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                    </div>
+                    <h3>AI Processing</h3>
+                    <p>Advanced AI algorithms cross-reference multiple trusted sources and databases.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                        </svg>
+                    </div>
+                    <h3>Instant Results</h3>
+                    <p>Receive detailed verification results with confidence scores and evidence.</p>
+                </div>
+            </div>
+
+            <div class="tech-card">
+                <h3>Powered by Advanced AI</h3>
+                <p>TruthLens uses advanced AI models for evidence summarization and scoring, combined with multiple fact-checking databases to ensure comprehensive analysis.</p>
+                <div class="tech-tags">
+                    <span>Advanced AI</span>
+                    <span>Fact-Check Databases</span>
+                    <span>Trusted Sources</span>
+                    <span>Real-time Analysis</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>About TruthLens</h2>
+                <p>TruthLens represents our commitment to combating misinformation through innovative AI technology and user education.</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                            <path d="M4 22h16"/>
+                            <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
+                        </svg>
+                    </div>
+                    <h3>Innovation Project</h3>
+                    <p>Built with focus on practical AI applications for fact-checking</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>Team Mission</h3>
+                    <p>Dedicated to creating accessible tools for fighting misinformation</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3>Open Development</h3>
+                    <p>Transparent development process with focus on accuracy and reliability</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11H1l6-6 6 6"/>
+                            <path d="M9 17l3 3 3-3"/>
+                            <path d="M22 18.5c0 .28-.22.5-.5.5h-1c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h1c.28 0 .5.22.5.5z"/>
+                            <path d="M23 13.5c0 .28-.22.5-.5.5h-1c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h1c.28 0 .5.22.5.5z"/>
+                            <path d="M23 8.5c0 .28-.22.5-.5.5h-1c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h1c.28 0 .5.22.5.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Continuous Learning</h3>
+                    <p>Constantly improving through user feedback and technological advances</p>
+                </div>
+            </div>
+
+            <div class="tech-showcase">
+                <div class="tech-content">
+                    <h4>AI Integration</h4>
+                    <p>At the heart of TruthLens is advanced AI technology, which enables sophisticated evidence summarization, credibility scoring, and natural language understanding. This integration allows us to provide nuanced, context-aware fact-checking that goes beyond simple keyword matching.</p>
+                </div>
+            </div>
+
+            <div class="tech-list">
+                <h4>Technologies Used</h4>
+                <div class="tech-tags">
+                    <span>Advanced AI</span>
+                    <span>Python Backend</span>
+                    <span>React Frontend</span>
+                    <span>Chrome Extension</span>
+                    <span>Fact-Check APIs</span>
+                    <span>Machine Learning</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Verify Button -->
+    <div id="floating-button" class="floating-button hidden">
+        <button onclick="scrollToSection('checker')">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="21 21l-4.35-4.35"/>
+            </svg>
+            Verify Claim
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
