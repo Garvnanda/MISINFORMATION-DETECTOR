@@ -1,100 +1,168 @@
-# 📰 TruthLens — Misinformation Detector & Educator (MVP)
+md
+# MISINFORMATION-DETECTOR
 
-**TruthLens** is a hackathon prototype that empowers users to fight misinformation online.  
-With a simple Chrome extension and a FastAPI backend, users can **highlight text or scan a full page** to instantly receive:
+## Project Overview
 
-- ✅ A **verdict** (Likely True / False / Disputed / Uncertain)  
-- 📊 A **confidence score**  
-- 🔗 **Top 3 evidence snippets** with clickable sources  
-- 🧾 A **transparency panel** showing signal scores  
-- 🎓 A short **education tip** on spotting misinformation  
+This repository contains code for a misinformation detection system. While no formal description was provided, the file structure and included files suggest it is a web application with a Chrome extension component that likely analyzes text on web pages and provides a verdict on its truthfulness, confidence score, supporting evidence, and educational resources. The backend uses Python (FastAPI) and the frontend/extension uses Javascript.
 
----
+## Key Features & Benefits (Inferred)
 
-## ✨ Features
+*   **Misinformation Detection:** Identifies potentially false or misleading information online.
+*   **Verdict and Confidence Score:** Provides a judgment on the truthfulness of the content and a measure of confidence in that judgment.
+*   **Evidence Snippets:** Highlights supporting evidence for the verdict with clickable sources.
+*   **Transparency Panel:** Shows the factors contributing to the verdict.
+*   **Educational Resources:** Offers educational tips to help users understand the issue.
+*   **Chrome Extension:** Integrates directly with the user's web browsing experience.
+*   **API Backend:** Provides a robust and scalable infrastructure for the system.
 
-| Feature | Description |
-|---------|-------------|
-| 🔍 **Right-Click Fact-Check** | Highlight text → right-click → “Check Claim with TruthLens” |
-| 🖼️ **Popup UI Fact-Check** | Paste text or click **Check Full Page** to analyze entire articles |
-| 📊 **Explainable Verdicts** | Verdict + confidence score + evidence list |
-| 📚 **Transparency Panel** | Displays reliability, corroboration, and other signals |
-| 🎓 **Educational Nudges** | One-line tips teaching users how to spot misinformation |
-| 🛡️ **Canned Claims Fallback** | 3 preloaded claims ensure a smooth demo even offline |
+## Prerequisites & Dependencies
 
----
+Before you begin, ensure you have the following installed:
 
-## 📂 Project Structure
+*   **Python:** Version 3.11 or higher.
+*   **Docker:** For containerization and simplified deployment (optional).
+*   **Node.js and npm:** For building the Chrome extension (if modifying extension).
+*   **Web Browser:** Google Chrome (required for the extension).
 
-```bash
-truthlens/
-├── backend/ # FastAPI backend
-│ ├── main.py
-│ ├── services/
-│ │ ├── retrieval.py # retrieval logic (canned + extendable to APIs)
-│ │ ├── scoring.py # verdict aggregation & fallback
-│ │ └── education.py # education tip generator
-│ ├── canned_claims.json # sample claims for hackathon demo
-│ ├── requirements.txt
-│ └── run_local.sh
-└── extension/ # Chrome extension
-├── manifest.json
-├── background.js
-├── content_script.js
-├── popup.html
-├── popup.css
-├── popup.js
-└── icons/
-├── icon16.png
-├── icon48.png
-└── icon128.png
+The Python backend also depends on the following libraries, which are listed in `backend/requirements.txt`:
 
+*   fastapi==0.101.0
+*   uvicorn[standard]==0.22.0
+*   requests==2.31.0
+*   python-dotenv==1.0.0
+*   google-generativeai==0.8.5
 
-```
+## Installation & Setup Instructions
 
-## 🚀 Getting Started
+### Backend Setup
 
-### 1. Backend Setup (FastAPI)
+1.  **Clone the repository:**
 
-```bash
+    ```bash
+    git clone https://github.com/Garvnanda/MISINFORMATION-DETECTOR.git
+    cd MISINFORMATION-DETECTOR
+    ```
+
+2.  **Navigate to the backend directory:**
+
+    ```bash
     cd backend
-    python -m venv .venv
-    source .venv/bin/activate        # Windows: .venv\Scripts\activate
+    ```
+
+3.  **Create a virtual environment (recommended):**
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Linux/macOS
+    # venv\Scripts\activate  # On Windows
+    ```
+
+4.  **Install the dependencies:**
+
+    ```bash
     pip install -r requirements.txt
-    uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
+    ```
 
-Server will run at:
+5. **Set up environment variables:**
 
-API → http://localhost:8000/verify
+   *   Copy the content of `.env.example` (if provided, create your own version of it named `.env`)
+   *   Populate the `.env` file with the necessary keys and values, such as API keys (if applicable).
 
-Docs → http://localhost:8000/docs
+6.  **Run the backend using Uvicorn:**
 
-### 2. Extension Setup (Chrome)
+    ```bash
+    uvicorn main:app --host 0.0.0.0 --port 8000
+    ```
 
-Open Chrome → go to chrome://extensions/.
+    Alternatively, you can use the `run_local.sh` script (if available):
 
-Enable Developer mode (top-right toggle).
+    ```bash
+    ./run_local.sh
+    ```
 
-Click Load unpacked and select the extension/ folder.
+### Chrome Extension Setup
 
-You will now see the TruthLens icon in your extensions toolbar.
+1.  **Navigate to the `extension` directory:**
 
+    ```bash
+    cd extension
+    ```
 
+2.  **Open Chrome and go to `chrome://extensions/`**
 
-### 🔎 Usage
-- Right-Click Flow
+3.  **Enable "Developer mode" in the top right corner.**
 
-- Highlight any text on a webpage.
+4.  **Click "Load unpacked" and select the `extension` directory in this repository.**
 
-- Right-click → Check Claim with TruthLens.
+5.  The extension should now be installed and active in your Chrome browser.
 
-- Popup opens with verdict + evidence.
+### Docker Setup (Optional)
 
-- Popup Flow
+1.  **Build the Docker image:**
 
-- Click the TruthLens icon in toolbar.
+    ```bash
+    docker build -t misinformation-detector-backend .
+    ```
 
-- Paste text OR click Check Full Page.
+2.  **Run the Docker container:**
 
-- See verdict, confidence, evidence, and education tip.
+    ```bash
+    docker run -d -p 8000:8000 misinformation-detector-backend
+    ```
+
+    This will start the backend server in a Docker container, accessible at `http://localhost:8000`.
+
+## Usage Examples & API Documentation
+
+### Backend API (Examples)
+
+The backend provides a REST API. Here are some example endpoints (inferred based on the code):
+
+*   **`/` (GET):**  Likely a health check or simple welcome message.
+
+    ```bash
+    curl http://localhost:8000/
+    ```
+
+*   **`/analyze` (POST):** Likely takes text as input and returns the analysis results. Example:
+
+    ```bash
+    curl -X POST -H "Content-Type: application/json" -d '{"text": "This is a test sentence."}' http://localhost:8000/analyze
+    ```
+
+    The response would likely be a JSON object containing the verdict, confidence score, evidence snippets, and transparency panel data.
+
+*Note:* Without further documentation or descriptions, the exact API endpoints and request/response formats are speculative and require further investigation of `backend/main.py`.
+
+### Chrome Extension Usage
+
+1.  Browse to a webpage.
+2.  Highlight a text snippet you want to analyze, or activate page analysis.
+3.  The extension will send the text to the backend API.
+4.  The extension will display the analysis results (verdict, confidence score, evidence, etc.) in a popup or embedded panel.
+
+## Configuration Options
+
+The backend can be configured using environment variables. The following variables are likely used (inferred from `backend/main.py` and the presence of `python-dotenv`):
+
+*   **PORT:** The port the backend server listens on (default: 8000).
+*   **Any API keys:** Possibly Google API key for GenAI or Search API keys.  These should be stored as environment variables.
+
+These environment variables can be set in a `.env` file in the `backend` directory, or directly in the system's environment.
+
+## Contributing Guidelines
+
+We welcome contributions to improve this project! Here are some guidelines:
+
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make your changes and commit them with clear and concise messages.
+4.  Submit a pull request with a detailed description of your changes.
+
+## License Information
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+## Acknowledgments
+
+*   The project structure suggests the use of certain technologies such as FastAPI, Google Generative AI, and potentially other third-party resources. These libraries and resources are acknowledged for their contribution to this project.
