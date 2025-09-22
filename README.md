@@ -130,7 +130,7 @@ The backend provides a REST API. Here are some example endpoints (inferred based
     curl -X POST -H "Content-Type: application/json" -d '{"text": "This is a test sentence."}' http://localhost:8000/analyze
     ```
 
-    The response would likely be a JSON object containing the verdict, confidence score, evidence snippets, and transparency panel data.
+    The response would likely be a JSON object containing the verdict, confidence score, evidence snippets, and the transparency panel data.
 
 *Note:* Without further documentation or descriptions, the exact API endpoints and request/response formats are speculative and require further investigation of `backend/main.py`.
 
