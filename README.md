@@ -3,7 +3,7 @@ md
 
 ## Project Overview
 
-This repository contains code for a misinformation detection system. While no formal description was provided, the file structure and included files suggest it is a web application with a Chrome extension component that likely analyzes text on web pages and provides a verdict on its truthfulness, confidence score, supporting evidence, and educational resources. The backend uses Python (FastAPI) and the frontend/extension uses Javascript.
+This repository contains code for a misinformation detection system. While no formal description was provided, the file structure and included files suggest it is a web application with a Chrome/Firefox extension component that likely analyzes text on web pages and provides a verdict on its truthfulness, confidence score, supporting evidence, and educational resources. The backend uses Python (FastAPI) and the frontend/extension uses Javascript.
 
 ## Key Features & Benefits (Inferred)
 
